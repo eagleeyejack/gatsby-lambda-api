@@ -43,6 +43,22 @@ module.exports = {
         name: `twitter`,
       },
     },
+    {
+      resolve: "gatsby-source-apiserver",
+      options: {
+        // Type prefix of entities from server
+        typePrefix: "internal__",
+
+        // The url, this should be the endpoint you are attempting to pull data from
+        url: `https://friendly-booth-01ff3a.netlify.com/.netlify/functions/getspotify/api`,
+
+        method: "get",
+
+        // Name of the data to be downloaded.  Will show in graphQL or be saved to a file
+        // using this name. i.e. posts.json
+        name: `spotify`,
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

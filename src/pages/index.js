@@ -68,5 +68,26 @@ export const pageQuery = graphql`
         }
       }
     }
+    allInternalSpotify {
+      edges {
+        node {
+          items {
+            track {
+              name
+              artists {
+                name
+              }
+              album {
+                images {
+                  height
+                  url
+                  width
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `
