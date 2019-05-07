@@ -34,7 +34,7 @@ module.exports = {
         typePrefix: "internal__",
 
         // The url, this should be the endpoint you are attempting to pull data from
-        url: `https://angry-bardeen-2845b6.netlify.com/.netlify/functions/server/twitter`,
+        url: `https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets`,
 
         method: "get",
 

@@ -9,51 +9,43 @@ class IndexPage extends React.Component {
   render() {
     function urlify(text) {
       var urlRegex = /(https?:\/\/[^\s]+)/g
-      return text.replace(urlRegex, function(url) {
-        return '<a href="' + url + '">' + url + "</a>"
-      })
+
+      if (text) {
+        return text.replace(urlRegex, function(url) {
+          return "<p>" + url + "</p>"
+        })
+      }
     }
 
-    const tweet = get(
-      this,
-      "props.data.allInternalTwitter.edges[0].node.twitterFile"
-    )
+    const tweets = get(this, "props.data.allInternalTwitter.edges")
 
     return (
       <Layout>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-        <div style={{ padding: "1rem 0" }}>
+        {tweets.map(({ node }, index) => (
           <a
-            href={tweet.url}
-            style={{ textDecoration: "none", color: "#222222" }}
+            href={`https://twitter.com/${
+              node.user ? node.user.screen_name : ""
+            }/status/${node.id_str}`}
+            style={{ padding: "1rem 0" }}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: urlify(tweet.tweets),
-              }}
-            />
-            <div href={tweet.url}>@{tweet.screenName}</div>
+            <div key={index} style={{ margin: "1rem 0" }}>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: urlify(node.text),
+                }}
+              />
+            </div>
           </a>
+        ))}
 
-          <div style={{ padding: "1rem 0" }}>
-            {tweet.all.map((node, index) => (
-              <div key={index} style={{ margin: "1rem 0" }}>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: urlify(node.text),
-                  }}
-                />
-                <p>@{node.user.screen_name}</p>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ padding: "1rem 0" }}>
-            <h3>The API LINK</h3>
-            <a href="https://angry-bardeen-2845b6.netlify.com/.netlify/functions/server/twitter">
-              https://angry-bardeen-2845b6.netlify.com/.netlify/functions/server/twitter
-            </a>
-          </div>
+        <div style={{ padding: "1rem 0" }}>
+          <h3>The API LINK</h3>
+          <a href="https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets">
+            https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets
+          </a>
         </div>
       </Layout>
     )
@@ -64,35 +56,14 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query {
-    internalTwitter {
-      twitterFile {
-        all {
-          text
-        }
-      }
-    }
     allInternalTwitter {
       edges {
         node {
-          twitterFile {
-            date
-            screenName
-            name
-            tweets
-            tweetId
-            url
-            all {
-              text
-              user {
-                name
-                screen_name
-              }
-              entities {
-                urls {
-                  url
-                }
-              }
-            }
+          id
+          text
+          id_str
+          user {
+            screen_name
           }
         }
       }
