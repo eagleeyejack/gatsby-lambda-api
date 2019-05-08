@@ -18,6 +18,7 @@ class IndexPage extends React.Component {
     }
 
     const tweets = get(this, "props.data.allInternalTwitter.edges")
+    const music = get(this, "props.data.allInternalSpotify.edges")
 
     return (
       <Layout>
@@ -47,6 +48,19 @@ class IndexPage extends React.Component {
             https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets
           </a>
         </div>
+        {/* {music.map(({ node }, index) => (
+          <div className="music">
+            <div className="images">
+              <img src={node.items[0].track.album.images[0].url} />
+            </div>
+            <div className="text-wrap">
+              <div className="text">
+                <p>{node.items[0].track.name}</p>
+                <p>{node.items[0].track.artists[0].name}</p>
+              </div>
+            </div>
+          </div>
+        ))} */}
       </Layout>
     )
   }
@@ -68,7 +82,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allInternalSpotify {
+    allInternalSpotify(limit: 1) {
       edges {
         node {
           items {
