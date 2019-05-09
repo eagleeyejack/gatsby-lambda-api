@@ -48,7 +48,7 @@ class IndexPage extends React.Component {
             https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets
           </a>
         </div>
-        {/* {music.map(({ node }, index) => (
+        {music.map(({ node }, index) => (
           <div className="music">
             <div className="images">
               <img src={node.items[0].track.album.images[0].url} />
@@ -60,7 +60,7 @@ class IndexPage extends React.Component {
               </div>
             </div>
           </div>
-        ))} */}
+        ))}
       </Layout>
     )
   }
