@@ -10,14 +10,12 @@ const light = {
   main: "green",
   secondary: "white",
   third: "#663399",
-  off: "1",
 }
 
 const dark = {
   main: "maroon",
-  secondary: "black",
-  third: "red",
-  off: "-1",
+  secondary: "white",
+  third: "palevioletred",
 }
 
 class Layout extends React.Component {
@@ -27,10 +25,18 @@ class Layout extends React.Component {
     this.changeTheme = this.changeTheme.bind(this)
   }
 
+  componentDidMount() {
+    const localStorageLayout = localStorage.getItem("lightTheme")
+    if (localStorageLayout) {
+      this.setState({ lightTheme: JSON.parse(localStorageLayout) })
+    }
+  }
+
   changeTheme() {
     this.setState({
       lightTheme: !this.state.lightTheme,
     })
+    localStorage.setItem("lightTheme", !this.state.lightTheme)
   }
 
   render() {
@@ -40,9 +46,9 @@ class Layout extends React.Component {
       <ThemeProvider theme={this.state.lightTheme ? light : dark}>
         <>
           <Header
-            changeTheme={this.changeTheme}
-            theme={this.state.lightTheme ? light : dark}
             siteTitle={"Gatsby Playground"}
+            changeTheme={this.changeTheme}
+            lightTheme={this.state.lightTheme}
           />
           <div
             style={{
