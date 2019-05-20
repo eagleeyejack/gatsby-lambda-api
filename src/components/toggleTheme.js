@@ -40,6 +40,10 @@ const Track = styled.div`
   z-index: -2;
   background-color: ${props => (props.bg ? "#cecece" : "#ffffff")};
   transition: background-color 0.3s cubic-bezier(0.95, 0.25, 0.3, 0.65);
+
+  .emoji {
+    margin-top: 4px;
+  }
 `
 
 const Switch = styled.div`
