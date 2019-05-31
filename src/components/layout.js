@@ -4,7 +4,6 @@ import Header from "../components/header"
 import "./layout.css"
 
 import { ThemeProvider } from "styled-components"
-// import base from "../components/baseStyles"
 
 const light = {
   main: "green",

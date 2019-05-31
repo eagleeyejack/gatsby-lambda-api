@@ -5,16 +5,29 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import get from "lodash/get"
 
+import Emoji from "../components/emoji"
+
 import styled from "styled-components"
-import base from "../components/baseStyles"
+// import base from "../components/baseStyles"
+
+import { getWeather } from "../components/helper"
 
 const ThemeCard = styled.div`
-  /* color: ${base.colorPrimary}; */
   background-color: ${props =>
-    props.theme.secondary ? props.theme.third : "palevioletred"};
+    props.theme.secondary ? props.theme.third : undefined};
   color: ${props =>
-    props.theme.secondary ? props.theme.secondary : "palevioletred"};
+    props.theme.secondary ? props.theme.secondary : undefined};
   padding: 2rem;
+`
+
+const WeatherEl = styled.div`
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    margin: 0 0.25rem 0 0;
+  }
 `
 
 class IndexPage extends React.Component {
@@ -30,6 +43,7 @@ class IndexPage extends React.Component {
     }
 
     const tweets = get(this, "props.data.allInternalTwitter.edges")
+    const weather = get(this, "props.data.allInternalWeather.edges")
     // const music = get(this, "props.data.allInternalSpotify.edges")
 
     return (
@@ -54,8 +68,22 @@ class IndexPage extends React.Component {
             </div>
           </a>
         ))}
+
+        <WeatherEl>
+          <div style={{ display: "flex" }}>
+            <p>{weather[0].node.name},</p>
+            <p>{weather[0].node.sys.country} 🇬🇧</p>
+          </div>
+          <div style={{ display: "flex" }}>
+            <p>{Math.round(weather[0].node.main.temp) + "°C"}</p>
+            <Emoji
+              symbol={getWeather(weather[0].node.weather[0].main)}
+              label={weather[0].node.weather[0].main}
+            />
+          </div>
+        </WeatherEl>
         <ThemeCard>Hello I'm a theme component</ThemeCard>
-        <div style={{ padding: "1rem 0" }}>
+        <div style={{ padding: "2rem 0" }}>
           <h3>The API LINK</h3>
           <a href="https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets">
             https://friendly-booth-01ff3a.netlify.com/.netlify/functions/gettweets
@@ -79,6 +107,22 @@ export const pageQuery = graphql`
           id_str
           user {
             screen_name
+          }
+        }
+      }
+    }
+    allInternalWeather {
+      edges {
+        node {
+          name
+          main {
+            temp
+          }
+          sys {
+            country
+          }
+          weather {
+            main
           }
         }
       }
